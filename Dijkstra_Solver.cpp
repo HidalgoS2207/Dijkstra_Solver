@@ -7,7 +7,7 @@
 
 int main()
 {
-    Map map(30,30,20);
+    Map map(10,10,20);
 
     return 0;
 }

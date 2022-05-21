@@ -26,5 +26,5 @@ private:
 	std::pair<int, int>f;
 	std::pair<int, int>o;
 
-	Solver solver;
+	Solver* solver;
 };

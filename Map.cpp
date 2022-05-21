@@ -3,16 +3,20 @@
 Map::Map(int x, int y, int obs_density)
 	:
 	x_size(x),
-	y_size(y),
-	solver(tiles, f)
+	y_size(y)
 {
 	generate(obs_density);
-	print_console_test();
-	solver.run();
+	//print_console_test();
+	
+	solver = new Solver(tiles, f);
+	
+	solver->run();
 }
 
 Map::~Map()
-{}
+{
+	delete solver;
+}
 
 void Map::print_console_test()
 {

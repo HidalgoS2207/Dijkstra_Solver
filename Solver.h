@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <utility>
+#include <limits>
 
 class Solver
 {
@@ -16,4 +17,10 @@ private:
 	std::vector<std::vector<Tile>>& map;
 
 	std::pair<int, int>& f;
+	std::pair<int, int>& t;
+
+	std::vector<std::vector<unsigned int>>node;
+
+	bool target_found;
+	bool all_target_nodes_ver;
 };
