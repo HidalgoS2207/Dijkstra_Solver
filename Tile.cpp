@@ -3,7 +3,8 @@
 Tile::Tile(int x, int y)
 	:
 	pos_x(x),
-	pos_y(y)
+	pos_y(y),
+	state(true)
 {}
 
 Tile::~Tile()
