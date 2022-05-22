@@ -6,9 +6,9 @@ Map::Map(int x, int y, int obs_density)
 	y_size(y)
 {
 	generate(obs_density);
-	//print_console_test();
+	print_console_test();
 	
-	solver = new Solver(tiles, f);
+	solver = new Solver(tiles, f,o);
 	
 	solver->run();
 }

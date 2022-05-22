@@ -9,11 +9,13 @@
 class Solver
 {
 public:
-	Solver(std::vector<std::vector<Tile>>& map,std::pair<int,int>& f);
+	Solver(std::vector<std::vector<Tile>>& map,std::pair<int,int>& f, std::pair<int, int>& t);
 	~Solver();
 
 	void run();
 private:
+	int evaluate_position(int xo,int yo,int xt,int yt);
+
 	std::vector<std::vector<Tile>>& map;
 
 	std::pair<int, int>& f;
