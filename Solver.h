@@ -17,6 +17,7 @@ public:
 private:
 	int evaluate_position(int xo,int yo,int xt,int yt);
 	void print_stage(int n);
+	void save_min_path();
 
 	std::vector<std::vector<Tile>>& map;
 
@@ -24,6 +25,9 @@ private:
 	std::pair<int, int>& t;
 
 	std::vector<std::vector<unsigned int>>node;
+	std::vector<std::vector<std::pair<int, int>>>origin;
+
+	std::vector<std::pair<int, int>> min_path;
 
 	bool target_found;
 	bool all_target_nodes_ver;

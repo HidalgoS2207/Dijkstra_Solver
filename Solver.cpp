@@ -12,6 +12,7 @@ Solver::Solver(std::vector<std::vector<Tile>>& map, std::pair<int, int>& f, std:
 	for (int i = 0; i < map.size(); i++)
 	{
 		node.emplace_back();
+		origin.emplace_back();
 
 		for (int j = 0; j < map[0].size(); j++)
 		{
@@ -23,6 +24,8 @@ Solver::Solver(std::vector<std::vector<Tile>>& map, std::pair<int, int>& f, std:
 			{
 				node[i].push_back(UINT_MAX);
 			}
+
+			origin[i].push_back({ 0,0 });
 		}
 	}
 
@@ -48,7 +51,7 @@ void Solver::run()
 	node[f.second + 1][f.first] = evaluate_position(f.first, f.second, f.first, f.second + 1);
 	node[f.second + 1][f.first + 1] = evaluate_position(f.first, f.second, f.first + 1, f.second + 1);
 
-	print_stage(n);
+	//print_stage(n);
 
 	n = 1;
 
@@ -74,6 +77,11 @@ void Solver::run()
 					node[idy + 1][idx - 1] = evaluate_position(idx, idy, idx - 1, idy + 1);
 					node[idy + 1][idx] = evaluate_position(idx, idy, idx, idy + 1);
 					node[idy + 1][idx + 1] = evaluate_position(idx, idy, idx + 1, idy + 1);
+
+					if (idx == t.first && idy == t.second)
+					{
+						target_found = true;
+					}
 				}
 			}
 		}
@@ -95,6 +103,11 @@ void Solver::run()
 					node[idy + 1][idx - 1] = evaluate_position(idx, idy, idx - 1, idy + 1);
 					node[idy + 1][idx] = evaluate_position(idx, idy, idx, idy + 1);
 					node[idy + 1][idx + 1] = evaluate_position(idx, idy, idx + 1, idy + 1);
+
+					if (idx == t.first && idy == t.second)
+					{
+						target_found = true;
+					}
 				}
 			}
 		}
@@ -118,6 +131,11 @@ void Solver::run()
 					node[idy + 1][idx - 1] = evaluate_position(idx, idy, idx - 1, idy + 1);
 					node[idy + 1][idx] = evaluate_position(idx, idy, idx, idy + 1);
 					node[idy + 1][idx + 1] = evaluate_position(idx, idy, idx + 1, idy + 1);
+
+					if (idx == t.first && idy == t.second)
+					{
+						target_found = true;
+					}
 				}
 			}
 		}
@@ -139,19 +157,35 @@ void Solver::run()
 					node[idy + 1][idx - 1] = evaluate_position(idx, idy, idx - 1, idy + 1);
 					node[idy + 1][idx] = evaluate_position(idx, idy, idx, idy + 1);
 					node[idy + 1][idx + 1] = evaluate_position(idx, idy, idx + 1, idy + 1);
+
+					if (idx == t.first && idy == t.second)
+					{
+						target_found = true;
+					}
 				}
 			}
 		}
 
 		if (target_found)
 		{
-
+			std::cout << "\nTarget Found\n";
+			if (!all_target_nodes_ver)
+			{
+				all_target_nodes_ver = true;
+			}
+			else
+			{
+				break;
+			}
 		}
 
-		print_stage(n);
+		//print_stage(n);
 
 		n++;
 	}
+
+	//print_stage(n);
+	save_min_path();
 }
 
 int Solver::evaluate_position(int xo, int yo, int xt, int yt)
@@ -164,12 +198,13 @@ int Solver::evaluate_position(int xo, int yo, int xt, int yt)
 
 		if (node[yt][xt] > calc)
 		{
+			origin[yt][xt] = { xo,yo };
 			return calc;
 		}
 		else
 		{
 			return node[yt][xt];
-		}		
+		}
 	}
 
 	return UINT_MAX;
@@ -193,5 +228,26 @@ void Solver::print_stage(int n)
 			}
 		}
 		std::cout << "\n";
+	}
+}
+
+void Solver::save_min_path()
+{
+	int idx = t.first;
+	int idy = t.second;
+
+	min_path.push_back({ idx,idy });
+
+	while (idx != f.first && idy != f.second)
+	{
+		min_path.push_back({ origin[idy][idx].first, origin[idy][idx].second });
+
+		idx = origin[idy][idx].first;
+		idy = origin[idy][idx].second;
+	}
+
+	for (int i = 0; i < min_path.size(); i++)
+	{
+		std::cout << "{" << min_path[i].first << " ; " << min_path[i].second << "}\n";
 	}
 }
