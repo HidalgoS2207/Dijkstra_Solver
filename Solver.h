@@ -5,6 +5,7 @@
 #include <vector>
 #include <utility>
 #include <limits>
+#include <iostream>
 
 class Solver
 {
@@ -15,6 +16,7 @@ public:
 	void run();
 private:
 	int evaluate_position(int xo,int yo,int xt,int yt);
+	void print_stage(int n);
 
 	std::vector<std::vector<Tile>>& map;
 
