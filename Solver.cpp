@@ -199,10 +199,13 @@ int Solver::evaluate_position(int xo, int yo, int xt, int yt)
 		if (node[yt][xt] > calc)
 		{
 			origin[yt][xt] = { xo,yo };
+
 			return calc;
 		}
 		else
 		{
+			origin[yt][xt] = { xo,yo };
+
 			return node[yt][xt];
 		}
 	}
@@ -238,14 +241,16 @@ void Solver::save_min_path()
 
 	min_path.push_back({ idx,idy });
 
+	std::cout << "{" << idx << " ; " << idy << "}\n";
+
 	while (idx != f.first && idy != f.second)
 	{
 		min_path.push_back({ origin[idy][idx].first, origin[idy][idx].second });
 
-		std::cout << "{" << idx << " ; " << idy << "}\n";
-
 		idx = origin[idy][idx].first;
 		idy = origin[idy][idx].second;
+
+		std::cout << "{" << idx << " ; " << idy << "}\n";
 	}
 
 	//for (int i = 0; i < min_path.size(); i++)
