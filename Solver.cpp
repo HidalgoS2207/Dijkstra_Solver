@@ -204,7 +204,7 @@ int Solver::evaluate_position(int xo, int yo, int xt, int yt)
 		}
 		else
 		{
-			origin[yt][xt] = { xo,yo };
+			//origin[yt][xt] = { xo,yo };
 
 			return node[yt][xt];
 		}
