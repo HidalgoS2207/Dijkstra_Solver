@@ -242,12 +242,14 @@ void Solver::save_min_path()
 	{
 		min_path.push_back({ origin[idy][idx].first, origin[idy][idx].second });
 
+		std::cout << "{" << idx << " ; " << idy << "}\n";
+
 		idx = origin[idy][idx].first;
 		idy = origin[idy][idx].second;
 	}
 
-	for (int i = 0; i < min_path.size(); i++)
-	{
-		std::cout << "{" << min_path[i].first << " ; " << min_path[i].second << "}\n";
-	}
+	//for (int i = 0; i < min_path.size(); i++)
+	//{
+	//	std::cout << "{" << min_path[i].first << " ; " << min_path[i].second << "}\n";
+	//}
 }
