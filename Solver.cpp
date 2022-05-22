@@ -179,7 +179,7 @@ void Solver::run()
 			}
 		}
 
-		//print_stage(n);
+		print_stage(n);
 
 		n++;
 	}
