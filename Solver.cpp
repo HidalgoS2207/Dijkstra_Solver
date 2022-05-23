@@ -256,3 +256,11 @@ void Solver::save_min_path()
 		std::cout << "{" << idx << " ; " << idy << "}\n";
 	}
 }
+
+bool Solver::evaluate_level(int n)
+{
+	for (int i = 0, idx_h = f.first - n, idx_v = f.first - n, idy_h = f.second - n, idy_v = f.second - n + 1; i < ((2 * n) + 1); i++, idx_h++,idy_v++)
+	{
+		if(node[idy_h][idx_h]==INT_MAX)
+	}
+}

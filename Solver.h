@@ -18,6 +18,7 @@ private:
 	int evaluate_position(int xo,int yo,int xt,int yt);
 	void print_stage(int n);
 	void save_min_path();
+	bool evaluate_level(int n);
 
 	std::vector<std::vector<Tile>>& map;
 
