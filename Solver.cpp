@@ -38,6 +38,8 @@ Solver::~Solver()
 
 void Solver::run()
 {
+	origin[f.second][f.first] = { f.first,f.second };
+
 	int n = 0;
 
 	node[f.second - 1][f.first - 1] = evaluate_position(f.first, f.second, f.first - 1, f.second - 1);
@@ -114,7 +116,7 @@ void Solver::run()
 
 		//progresion en y
 
-		for (int i = 0, idx = f.first - n, idy = f.second - n + 1; i < ((2 * n) + 1) - 1; i++, idy++)
+		for (int i = 0, idx = f.first - n, idy = f.second - n + 1; i < ((2 * n) + 1) - 2; i++, idy++)
 		{
 			if (idx >= 1 && idx < map[0].size() - 1 && idy >= 1 && idy < map.size() - 1)
 			{
@@ -140,7 +142,7 @@ void Solver::run()
 			}
 		}
 
-		for (int i = 0, idx = f.first + n, idy = f.second - n + 1; i < ((2 * n) + 1) - 1; i++, idy++)
+		for (int i = 0, idx = f.first + n, idy = f.second - n + 1; i < ((2 * n) + 1) - 2; i++, idy++)
 		{
 			if (idx >= 1 && idx < map[0].size() - 1 && idy >= 1 && idy < map.size() - 1)
 			{
@@ -179,7 +181,7 @@ void Solver::run()
 			}
 		}
 
-		print_stage(n);
+		//print_stage(n);
 
 		n++;
 	}
@@ -210,7 +212,7 @@ int Solver::evaluate_position(int xo, int yo, int xt, int yt)
 		}
 	}
 
-	return UINT_MAX;
+	return node[yt][xt];
 }
 
 void Solver::print_stage(int n)
@@ -243,12 +245,14 @@ void Solver::save_min_path()
 
 	std::cout << "{" << idx << " ; " << idy << "}\n";
 
-	while (idx != f.first && idy != f.second)
+	while (idx != f.first || idy != f.second)
 	{
 		min_path.push_back({ origin[idy][idx].first, origin[idy][idx].second });
 
-		idx = origin[idy][idx].first;
-		idy = origin[idy][idx].second;
+		//idx = origin[idy][idx].first;
+		//idy = origin[idy][idx].second;
+		idx = min_path.back().first;
+		idy = min_path.back().second;
 
 		std::cout << "{" << idx << " ; " << idy << "}\n";
 	}
