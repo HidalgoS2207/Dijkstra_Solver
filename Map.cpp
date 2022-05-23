@@ -6,23 +6,127 @@ Map::Map(int x, int y, int obs_density)
 	y_size(y)
 {
 	generate(obs_density);
-	//print_console_test();
+	print_console_test();
 	
-	solver = new Solver(tiles, f,o);
+	//solver = new Solver(tiles, f,o);
 	
-	solver->run();
+	//solver->run();
+}
+
+Map::Map(std::string map_name)
+	:
+	x_size(11),
+	y_size(11)
+{
+	std::ifstream map_file(map_name);
+
+	if (map_file.is_open())
+	{
+		while (true)
+		{
+			map_file.get();
+
+			if (map_file.eof())
+			{
+				break;
+			}
+
+			tiles.emplace_back();
+
+			map_file.seekg(-1, std::ios_base::cur);
+
+			while (true)
+			{
+				std::string tl;
+				tl.clear();
+
+				tl = map_file.get();
+
+				if (tl == "\n")
+				{
+					//map_file.seekg(1, std::ios_base::cur);
+					break;
+				}
+
+				if (tl == "#")
+				{
+					tiles.back().emplace_back(tiles.back().size()-1,tiles.size()-1);
+					tiles.back().back().set_state(false);
+				}
+				else if (tl == "-")
+				{
+					tiles.back().emplace_back(tiles.back().size() - 1, tiles.size() - 1);
+					tiles.back().back().set_state(true);
+				}
+				else if (tl == "F")
+				{
+					tiles.back().emplace_back(tiles.back().size() - 1, tiles.size() - 1);
+					tiles.back().back().set_state(true);
+
+					f.second = tiles.size() - 1;
+					f.first = tiles.back().size() - 1;
+				}
+				else if (tl == "O")
+				{
+					tiles.back().emplace_back(tiles.back().size() - 1, tiles.size() - 1);
+					tiles.back().back().set_state(true);
+
+					o.second = tiles.size() - 1;
+					o.first = tiles.back().size() - 1;
+				}
+				
+			}
+
+			//map_file.seekg(1, std::ios_base::cur);
+		}
+
+		map_file.close();
+	}
+	else
+	{
+		std::cout << "\nError loading map file. Standard map auto-generated.\n\n";
+
+		generate(10);
+	}
+
+	print_console_test();
 }
 
 Map::~Map()
 {
-	delete solver;
+	//delete solver;
+}
+
+std::pair<int, int>& Map::get_start()
+{
+	return f;
+}
+
+std::pair<int, int>& Map::get_goal()
+{
+	return o;
+}
+
+bool Map::check_tile(int x_pos, int y_pos)
+{
+	if (x_pos == o.first && y_pos == o.second)
+	{
+		return true;
+	}
+	
+	return false;
+}
+
+std::vector<std::vector<Tile>>& Map::get_map_tiles()
+{
+	return tiles;
 }
 
 void Map::print_console_test()
 {
-	for (int i = 0; i < y_size; i++)
+	for (int i = 0; i < tiles.size(); i++)
 	{
-		for (int j = 0; j < x_size; j++)
+		for (int j = 0; j < tiles.back().size(); j++)
 		{
 			if (tiles[i][j].get_state())
 			{

@@ -22,7 +22,7 @@ Solver::Solver(std::vector<std::vector<Tile>>& map, std::pair<int, int>& f, std:
 			}
 			else
 			{
-				node[i].push_back(UINT_MAX);
+				node[i].push_back(INT_MAX);
 			}
 
 			origin[i].push_back({ 0,0 });
@@ -181,7 +181,7 @@ void Solver::run()
 			}
 		}
 
-		//print_stage(n);
+		print_stage(n);
 
 		n++;
 	}
@@ -192,11 +192,12 @@ void Solver::run()
 
 int Solver::evaluate_position(int xo, int yo, int xt, int yt)
 {
-	int calc = UINT_MAX;
+	unsigned int calc = INT_MAX;
 
 	if (map[yt][xt].get_state() && map[yo][xo].get_state())
 	{
-		calc = sqrt(((std::abs(xt) - std::abs(xo)) * (std::abs(xt) - std::abs(xo))) + ((std::abs(yt) - std::abs(yo)) * (std::abs(yt) - std::abs(yo)))) + node[yo][xo];
+		//calc = sqrt(((std::abs(xt) - std::abs(xo)) * (std::abs(xt) - std::abs(xo))) + ((std::abs(yt) - std::abs(yo)) * (std::abs(yt) - std::abs(yo)))) + node[yo][xo];
+		calc = 1 + node[yo][xo];
 
 		if (node[yt][xt] > calc)
 		{
@@ -223,7 +224,7 @@ void Solver::print_stage(int n)
 	{
 		for (int j = 0; j < map[0].size(); j++)
 		{
-			if (node[i][j] == UINT_MAX)
+			if (node[i][j] >= INT_MAX)
 			{
 				std::cout << "L";
 			}
