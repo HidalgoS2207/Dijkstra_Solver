@@ -10,10 +10,10 @@
 int main()
 {
     //Map map(1000,1000,20);
-    Map map("map_file_001.txt");
+    Map map("map_file_002.txt");
 
     Solver solver(map.get_map_tiles(), map.get_start(), map.get_goal());
-    solver.run();
+    solver.run_alt();
 
     return 0;
 }

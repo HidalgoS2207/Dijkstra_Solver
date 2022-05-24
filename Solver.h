@@ -6,6 +6,7 @@
 #include <utility>
 #include <limits>
 #include <iostream>
+#include <queue>
 
 class Solver
 {
@@ -14,11 +15,14 @@ public:
 	~Solver();
 
 	void run();
+	void run_alt();
 private:
 	int evaluate_position(int xo,int yo,int xt,int yt);
-	void print_stage(int n);
+	void print_stage();
 	void save_min_path();
-	bool evaluate_level(int n);
+	bool val_pos(int x, int y);
+
+	std::queue<std::pair<int,int>> q;
 
 	std::vector<std::vector<Tile>>& map;
 

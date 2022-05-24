@@ -181,12 +181,68 @@ void Solver::run()
 			}
 		}
 
-		print_stage(n);
+		print_stage();
 
 		n++;
 	}
 
 	//print_stage(n);
+	save_min_path();
+}
+
+void Solver::run_alt()
+{
+	origin[f.second][f.first] = { f.first,f.second };
+
+	q.emplace(std::pair<int, int>{ f.first, f.second });
+
+	std::vector<bool> surr_val;
+	std::vector<std::pair<int, int>> surr_coor;
+
+	for (int i = 0; i < 8; i++)
+	{
+		surr_val.push_back(false);
+		surr_coor.emplace_back(std::pair<int, int>{ 0, 0 });
+	}
+
+	while (!q.empty())
+	{
+		surr_val[0] = val_pos(q.front().first - 1, q.front().second - 1);
+		surr_val[1] = val_pos(q.front().first, q.front().second - 1);
+		surr_val[2] = val_pos(q.front().first + 1, q.front().second - 1);
+		surr_val[3] = val_pos(q.front().first + 1, q.front().second);
+		surr_val[4] = val_pos(q.front().first + 1, q.front().second + 1);
+		surr_val[5] = val_pos(q.front().first, q.front().second + 1);
+		surr_val[6] = val_pos(q.front().first - 1, q.front().second + 1);
+		surr_val[7] = val_pos(q.front().first - 1, q.front().second);
+
+		surr_coor[0] = { q.front().first - 1, q.front().second - 1 };
+		surr_coor[1] = { q.front().first, q.front().second - 1 };
+		surr_coor[2] = { q.front().first + 1, q.front().second - 1 };
+		surr_coor[3] = { q.front().first + 1, q.front().second };
+		surr_coor[4] = { q.front().first + 1, q.front().second + 1 };
+		surr_coor[5] = { q.front().first, q.front().second + 1 };
+		surr_coor[6] = { q.front().first - 1, q.front().second + 1 };
+		surr_coor[7] = { q.front().first - 1, q.front().second };
+
+		for (int i = 0; i < 8; i++)
+		{
+			if (surr_val[i])
+			{
+				if (node[surr_coor[i].second][surr_coor[i].first] == INT_MAX)
+				{
+					q.emplace(std::pair<int, int>{ surr_coor[i].first, surr_coor[i].second });
+				}
+
+				node[surr_coor[i].second][surr_coor[i].first] = evaluate_position(q.front().first, q.front().second, surr_coor[i].first, surr_coor[i].second);
+			}
+		}
+
+		q.pop();
+
+		//print_stage();
+	}
+
 	save_min_path();
 }
 
@@ -216,10 +272,8 @@ int Solver::evaluate_position(int xo, int yo, int xt, int yt)
 	return node[yt][xt];
 }
 
-void Solver::print_stage(int n)
+void Solver::print_stage()
 {
-	std::cout << "\n";
-	std::cout << "n = " << n << "\n";
 	for (int i = 0; i < map.size(); i++)
 	{
 		for (int j = 0; j < map[0].size(); j++)
@@ -257,10 +311,12 @@ void Solver::save_min_path()
 	}
 }
 
-bool Solver::evaluate_level(int n)
+bool Solver::val_pos(int x, int y)
 {
-	for (int i = 0, idx_h = f.first - n, idx_v = f.first - n, idy_h = f.second - n, idy_v = f.second - n + 1; i < ((2 * n) + 1); i++, idx_h++,idy_v++)
+	if (x >= map[0].size() || x <= 0 || y >= map.size() || y <= 0 || !map[y][x].get_state())
 	{
-		if(node[idy_h][idx_h]==INT_MAX)
+		return false;
 	}
+
+	return true;
 }
