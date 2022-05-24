@@ -244,6 +244,8 @@ void Solver::run_alt()
 	}
 
 	save_min_path();
+
+	print_solution();
 }
 
 int Solver::evaluate_position(int xo, int yo, int xt, int yt)
@@ -291,6 +293,40 @@ void Solver::print_stage()
 	}
 }
 
+void Solver::print_solution()
+{
+	for (int i = 0; i < map.size(); i++)
+	{
+		for (int j = 0; j < map[0].size(); j++)
+		{
+			if (node[i][j] >= INT_MAX)
+			{
+				std::cout << "X";
+			}
+			else 
+			{
+				bool p = false;
+
+				for (int k = 0; k < min_path.size(); k++)
+				{
+					if (min_path[k].first == j && min_path[k].second == i)
+					{
+						std::cout << 'a';
+						p = true;
+						break;
+					}
+				}
+
+				if (!p)
+				{
+					std::cout << " ";
+				}
+			}
+		}
+		std::cout << "\n";
+	}
+}
+
 void Solver::save_min_path()
 {
 	int idx = t.first;
@@ -298,7 +334,7 @@ void Solver::save_min_path()
 
 	min_path.push_back({ idx,idy });
 
-	std::cout << "{" << idx << " ; " << idy << "}\n";
+	//std::cout << "{" << idx << " ; " << idy << "}\n";
 
 	while (idx != f.first || idy != f.second)
 	{
@@ -307,7 +343,7 @@ void Solver::save_min_path()
 		idx = min_path.back().first;
 		idy = min_path.back().second;
 
-		std::cout << "{" << idx << " ; " << idy << "}\n";
+		//std::cout << "{" << idx << " ; " << idy << "}\n";
 	}
 }
 

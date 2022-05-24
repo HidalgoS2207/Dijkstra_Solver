@@ -19,6 +19,7 @@ public:
 private:
 	int evaluate_position(int xo,int yo,int xt,int yt);
 	void print_stage();
+	void print_solution();
 	void save_min_path();
 	bool val_pos(int x, int y);
 
