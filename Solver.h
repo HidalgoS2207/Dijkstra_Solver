@@ -15,7 +15,6 @@ public:
 	~Solver();
 
 	void run();
-	void run_alt();
 private:
 	int evaluate_position(int xo,int yo,int xt,int yt);
 	void print_stage();

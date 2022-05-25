@@ -9,11 +9,11 @@
 
 int main()
 {
-    //Map map(1000,1000,20);
-    Map map("map_file_002.txt");
+    Map map(100,30,30);
+    //Map map("map_file_002.txt");
 
     Solver solver(map.get_map_tiles(), map.get_start(), map.get_goal());
-    solver.run_alt();
+    solver.run();
 
     return 0;
 }
